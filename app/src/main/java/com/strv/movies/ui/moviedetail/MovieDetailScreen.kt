@@ -3,17 +3,13 @@ package com.strv.movies.ui.moviedetail
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.annotation.NonNull
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -44,8 +40,13 @@ fun MovieDetail(movie: MovieDetail) {
         )
 
         Row {
-            MovieInfo(movie = movie)
-            MoviePoster(movie = movie)
+            MovieInfo(
+                movie = movie,
+                Modifier.weight(1f)
+            )
+            MoviePoster(
+                movie = movie
+            )
         }
     }
 }
@@ -107,28 +108,24 @@ fun MoviePoster(movie: MovieDetail) {
 }
 
 @Composable
-fun MovieInfo(movie: MovieDetail) {
-    Column {
+fun MovieInfo(movie: MovieDetail, weight: Modifier) {
+    Column(
+        modifier = Modifier
+            .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+    ) {
+
         Text(
             movie.title,
-            modifier = Modifier
-                .padding(start = 8.dp, top = 16.dp, end = 8.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-        Text(
-            movie.releaseDate,
-            modifier = Modifier
-                .padding(start = 8.dp, top = 8.dp)
-        )
+        Text(movie.releaseDate)
         Text(
             movie.overview,
             maxLines = 5,
             overflow = TextOverflow.Ellipsis, // It will add "..." to the end
-            modifier = Modifier
-                .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-                .size(240.dp),
             textAlign = TextAlign.Justify,
+            modifier = Modifier.width(240.dp),
             color = Color.Green
         )
     }
