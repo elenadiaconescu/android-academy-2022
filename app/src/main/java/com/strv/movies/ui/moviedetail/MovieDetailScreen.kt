@@ -112,6 +112,7 @@ fun MovieInfo(movie: MovieDetail, weight: Modifier) {
     Column(
         modifier = Modifier
             .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+            .width(240.dp),
     ) {
 
         Text(
@@ -125,7 +126,6 @@ fun MovieInfo(movie: MovieDetail, weight: Modifier) {
             maxLines = 5,
             overflow = TextOverflow.Ellipsis, // It will add "..." to the end
             textAlign = TextAlign.Justify,
-            modifier = Modifier.width(240.dp),
             color = Color.Green
         )
     }
