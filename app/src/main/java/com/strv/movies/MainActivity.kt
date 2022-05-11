@@ -1,25 +1,38 @@
 package com.strv.movies
 
+import android.graphics.Color.BLUE
+import android.os.Build
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.internal.StabilityInferred
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.widget.Placeholder
+import coil.compose.AsyncImagePainter.State.Empty.painter
+import com.google.android.material.textfield.TextInputEditText
 import com.strv.movies.data.OfflineMoviesProvider
 import com.strv.movies.ui.movieslist.MoviesList
 import com.strv.movies.ui.theme.MoviesTheme
@@ -46,10 +59,53 @@ class MainActivity : ComponentActivity() {
                                 DarkLightModeSwitchIcon(isDarkTheme = isDarkTheme)
                             }
                         )
+//                        Greeting("MOVIES")
+                        LogInMoviesApp()
                         MoviesList(movies = OfflineMoviesProvider.getMovies())
                     }
                 }
             }
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    fun LogInMoviesApp() {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(start = 40.dp, bottom = 10.dp, top = 18.dp, end = 20.dp)
+                .width(300.dp)
+        ) {
+            LogInElements()
+
+            R.drawable.ic_facebook
+
+        }
+    }
+
+    @Composable
+    private fun LogInElements() {
+        TextField(
+            value = "",
+            onValueChange = {},
+            isError = false,
+            label = {
+                Text(text = "Username")
+            })
+        TextField(
+            value = "",
+            onValueChange = {},
+            isError = false,
+            label = {
+                Text(text = "Password")
+            })
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .width(280.dp)
+        ) {
+            Text(text = "SIGN IN   (｡◕‿◕｡) ")
         }
     }
 
@@ -86,7 +142,30 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(start = 130.dp, bottom = 4.dp, top = 16.dp),
+    ) {
+        Row(
+        ) {
+            Text(
+                text = "WELCOME TO ",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
+        Row(
+        ) {
+
+            Text(
+                text = "$name",
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                color = Color.Red
+
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
