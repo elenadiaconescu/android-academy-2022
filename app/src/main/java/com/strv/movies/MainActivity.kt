@@ -63,7 +63,44 @@ class MainActivity : ComponentActivity() {
                 .width(300.dp)
         ) {
             LogInElements()
+            otherElementsForLogin()
+        }
+    }
 
+    @Composable
+    private fun otherElementsForLogin() {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .width(280.dp)
+                .padding(bottom = 10.dp)
+            ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_facebook),
+                contentDescription = "Continue with Facebook",
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = "Continue with Facebook"
+            )
+        }
+
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .width(280.dp)
+                .padding(bottom = 10.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_gmail),
+                modifier = Modifier.size(24.dp),
+                contentDescription = "Sign In with Gmail",
+            )
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = "Sign In with Gmail"
+            )
         }
     }
 
@@ -87,9 +124,11 @@ class MainActivity : ComponentActivity() {
             })
         Button(
             onClick = {},
-            modifier = Modifier.width(280.dp)
+            modifier = Modifier
+                .width(280.dp)
+                .padding(bottom = 10.dp)
         ) {
-            Text(text = "SIGN IN   (｡◕‿◕｡) ")
+            Text(text = "Log In   (｡◕‿◕｡) ")
         }
     }
 
