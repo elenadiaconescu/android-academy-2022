@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                                 DarkLightModeSwitchIcon(isDarkTheme = isDarkTheme)
                             }
                         )
-//                        Greeting("MOVIES")
+                        Greeting("MOVIES")
                         LogInMoviesApp()
                         MoviesList(movies = OfflineMoviesProvider.getMovies())
                     }
