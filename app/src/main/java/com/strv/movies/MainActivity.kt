@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                                 DarkLightModeSwitchIcon(isDarkTheme = isDarkTheme)
                             }
                         )
-                        Greeting("MOVIES")
+                        Greeting(stringResource(id = R.string.greetings))
                         LogInMoviesApp()
                         MoviesList(movies = OfflineMoviesProvider.getMovies())
                     }
@@ -59,8 +59,8 @@ class MainActivity : ComponentActivity() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(start = 40.dp, bottom = 10.dp, top = 18.dp, end = 20.dp)
-                .width(300.dp)
+                .padding(start = 40.dp, bottom = 10.dp, top = 18.dp, end = 40.dp)
+                .fillMaxWidth()
         ) {
             LogInElements()
             otherElementsForLogin()
@@ -72,35 +72,40 @@ class MainActivity : ComponentActivity() {
         Button(
             onClick = {},
             modifier = Modifier
-                .width(280.dp)
+                .fillMaxWidth()
                 .padding(bottom = 10.dp)
-            ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_facebook),
-                contentDescription = "Continue with Facebook",
-                modifier = Modifier.size(24.dp)
-            )
-            Text(
-                modifier = Modifier.padding(start = 10.dp),
-                text = "Continue with Facebook"
-            )
+        ) {
+            Row() {
+                Icon(
+                    painter = painterResource(R.drawable.ic_facebook),
+                    contentDescription = stringResource(id = R.string.continue_with_fb),
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                    text = stringResource(id = R.string.continue_with_fb)
+                )
+            }
+
         }
 
         Button(
             onClick = {},
             modifier = Modifier
-                .width(280.dp)
+                .fillMaxWidth()
                 .padding(bottom = 10.dp)
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_gmail),
-                modifier = Modifier.size(24.dp),
-                contentDescription = "Sign In with Gmail",
-            )
-            Text(
-                modifier = Modifier.padding(start = 10.dp),
-                text = "Sign In with Gmail"
-            )
+            Row() {
+                Icon(
+                    painter = painterResource(R.drawable.ic_gmail),
+                    modifier = Modifier.size(24.dp),
+                    contentDescription = stringResource(id = R.string.continue_with_gmail)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                    text = stringResource(id = R.string.continue_with_gmail)
+                )
+            }
         }
     }
 
@@ -112,7 +117,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.padding(bottom = 10.dp),
             isError = false,
             label = {
-                Text(text = "Username")
+                Text(text = stringResource(id = R.string.login_username_text_input_field))
             })
         TextField(
             value = "",
@@ -120,15 +125,15 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.padding(bottom = 10.dp),
             isError = false,
             label = {
-                Text(text = "Password")
+                Text(stringResource(id = R.string.login_password_text_input_field))
             })
         Button(
             onClick = {},
             modifier = Modifier
-                .width(280.dp)
+                .fillMaxWidth()
                 .padding(bottom = 10.dp)
         ) {
-            Text(text = "Log In   (｡◕‿◕｡) ")
+            Text(stringResource(id = R.string.login_btn))
         }
     }
 
@@ -141,7 +146,7 @@ class MainActivity : ComponentActivity() {
                     interactionSource = remember {
                         MutableInteractionSource()
                     },
-                    indication = rememberRipple(bounded = false),
+                    indication = rememberRipple(bounded = false)
                 ) {
                     isDarkTheme.value = !isDarkTheme.value
                     changeStatusBarColor(isDarkTheme.value)
@@ -153,7 +158,7 @@ class MainActivity : ComponentActivity() {
                     R.drawable.ic_dark
                 }
             ),
-            contentDescription = null,
+            contentDescription = null
         )
     }
 
@@ -167,34 +172,19 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(start = 130.dp, bottom = 4.dp, top = 16.dp),
+        modifier = Modifier.padding(start = 130.dp, bottom = 4.dp, top = 16.dp)
     ) {
-        Row(
-        ) {
-            Text(
-                text = "WELCOME TO ",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
-            )
-        }
-        Row(
-        ) {
-
-            Text(
-                text = "$name",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                color = Color.Red
-
-            )
-        }
+        Text(
+            text = stringResource(id = R.string.welcome_text),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
+        )
+        Text(
+            text = "$name",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Red
+        )
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MoviesTheme {
-        Greeting("Android")
-    }
-}
