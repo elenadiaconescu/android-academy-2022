@@ -6,4 +6,6 @@
     <string name="login_btn">Log In with a smile (｡◕‿◕｡)</string>
     <string name="continue_with_fb">Continue with Facebook</string>
     <string name="continue_with_gmail">Sign In with Gmail</string>
+    <string name="popcorn_picture">Popcorn</string>
+    <string name="movie_clapper_picture">Movie Clapper</string>
 </resources>

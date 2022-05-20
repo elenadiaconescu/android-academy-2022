@@ -44,13 +44,15 @@ private fun LoginElements(navigateToMovieList: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(start = 40.dp, bottom = 20.dp, top = 20.dp, end = 40.dp)
+            .padding(horizontal = 40.dp, vertical = 20.dp)
             .fillMaxWidth()
     ) {
         EmailField()
         PasswordField()
         LoginInWithSmileButton(navigateToMovieList)
+        SignInGmailButton(navigateToMovieList)
         ContinueWithFacebookButton(navigateToMovieList)
+        PopcornMoviePictures()
     }
 }
 
@@ -76,7 +78,9 @@ private fun PasswordField() {
         onValueChange = { passwordState.value = it },
         modifier = Modifier.padding(bottom = 10.dp),
         isError = false,
-        placeholder = { Text("Password") },
+        placeholder = {
+            Text(text = stringResource(id = R.string.login_password_text_input_field))
+        },
         label = {
             Text(text = stringResource(id = R.string.login_password_text_input_field))
         },
@@ -88,7 +92,6 @@ private fun PasswordField() {
                 Icons.Filled.Visibility
             else Icons.Filled.VisibilityOff
 
-            // Please provide localized description for accessibility services
             val description = if (passwordVisible) "Hide password" else "Show password"
 
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
@@ -129,7 +132,7 @@ private fun ContinueWithFacebookButton(navigateToMovieList: () -> Unit) {
                 .padding(bottom = 10.dp)
         ) {
             Text(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                modifier = Modifier.padding(end = 10.dp),
                 text = stringResource(id = R.string.continue_with_fb)
             )
             Icon(
@@ -139,7 +142,7 @@ private fun ContinueWithFacebookButton(navigateToMovieList: () -> Unit) {
             )
         }
     }
-    SignInGmailButton(navigateToMovieList)
+//    SignInGmailButton(navigateToMovieList)
 }
 
 @Composable
@@ -157,7 +160,7 @@ private fun SignInGmailButton(navigateToMovieList: () -> Unit) {
                 .padding(bottom = 10.dp)
         ) {
             Text(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                modifier = Modifier.padding(end = 10.dp),
                 text = stringResource(id = R.string.continue_with_gmail)
             )
             Icon(
@@ -166,20 +169,24 @@ private fun SignInGmailButton(navigateToMovieList: () -> Unit) {
                 contentDescription = stringResource(id = R.string.continue_with_gmail)
             )
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 70.dp)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_movie_clapper),
-                contentDescription = "Movie Clapper",
-            )
-            Icon(
-                painter = painterResource(R.drawable.ic_popcorn),
-                contentDescription = "Popcorn",
-            )
-        }
+    }
+}
+
+@Composable
+private fun PopcornMoviePictures() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 70.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_movie_clapper),
+            contentDescription = stringResource(id = R.string.movie_clapper_picture),
+        )
+        Icon(
+            painter = painterResource(R.drawable.ic_popcorn),
+            contentDescription = stringResource(id = R.string.popcorn_picture),
+        )
     }
 }
 
