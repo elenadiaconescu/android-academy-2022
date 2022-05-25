@@ -30,7 +30,7 @@ class MoviesListViewModel @Inject constructor(
             _viewState.update {
                 val randomNumber = Random.nextInt(10)
                 if (randomNumber < 3) {
-                    MoviesListViewState(error = "Something went wrong!")
+                    MoviesListViewState(error = "Something went wrong on Movies List")
                 } else {
                     MoviesListViewState(
                         movies = OfflineMoviesProvider.getMovies()

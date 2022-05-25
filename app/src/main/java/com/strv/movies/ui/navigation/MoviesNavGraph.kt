@@ -46,7 +46,9 @@ fun MoviesNavGraph(
                 }
             )
         ) {
-            MovieDetailScreen(viewModel = hiltViewModel())
+            MovieDetailScreen(
+                viewModel = hiltViewModel()
+            )
         }
     }
 }

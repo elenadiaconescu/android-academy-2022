@@ -32,8 +32,8 @@ class MovieDetailViewModel @Inject constructor(
             delay(2000)
             _viewState.update {
                 val randomNumber = Random.nextInt(10)
-                if (randomNumber < 3) {
-                    MovieDetailViewState(error = "Something went wrong!")
+                if (randomNumber == 2) {
+                    MovieDetailViewState(error = "Something went wrong on Movies Detail")
                 } else {
                     MovieDetailViewState(
                         movie = OfflineMoviesProvider.getMovieDetail(movieId)
@@ -44,6 +44,8 @@ class MovieDetailViewModel @Inject constructor(
     }
 
     fun updateVideoProgress(progress: Float) {
-        _viewState.update { it.copy(videoProgress = progress) }
+        _viewState.update {
+            it.copy(videoProgress = progress)
+        }
     }
 }

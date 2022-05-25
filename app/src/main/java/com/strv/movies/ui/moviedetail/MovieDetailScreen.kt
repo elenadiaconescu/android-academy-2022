@@ -2,15 +2,14 @@ package com.strv.movies.ui.moviedetail
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.annotation.NonNull
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +40,7 @@ fun MovieDetailScreen(
     if (viewState.loading) {
         LoadingScreen()
     } else if (viewState.error != null) {
+//      error !! = error is not null can be but next line won't be null
         ErrorScreen(errorMessage = viewState.error!!)
     } else {
         viewState.movie?.let {
@@ -84,13 +84,12 @@ fun MovieTrailerPlayer(
     // This is the official way to access current context from Composable functions
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-
     val configuration = LocalConfiguration.current
 
     val youTubePlayer = remember(context) {
         YouTubePlayerView(context).apply {
             addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
+                override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
                     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         youTubePlayer.loadVideo(videoId, progressSeconds)
                     } else {
@@ -98,7 +97,10 @@ fun MovieTrailerPlayer(
                     }
                 }
 
-                override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+                override fun onCurrentSecond(
+                    youTubePlayer: YouTubePlayer,
+                    second: Float
+                ) {
                     setProgress(second)
                 }
             })

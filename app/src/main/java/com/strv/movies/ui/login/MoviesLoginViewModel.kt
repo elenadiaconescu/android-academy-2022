@@ -13,7 +13,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class MoviesLoginViewModel @Inject constructor(): ViewModel() {
+class MoviesLoginViewModel @Inject constructor() : ViewModel() {
 
     private val _viewState = MutableStateFlow(MoviesLoginViewState(loading = true))
     val viewState = _viewState.asStateFlow()
@@ -24,7 +24,7 @@ class MoviesLoginViewModel @Inject constructor(): ViewModel() {
             _viewState.update {
                 val randomNumber = Random.nextInt(10)
                 if (randomNumber < 3) {
-                    MoviesLoginViewState(error = "Something went wrong!")
+                    MoviesLoginViewState(error = "Something went wrong on Login")
                 } else {
                     MoviesLoginViewState(
                         movies = OfflineMoviesProvider.getMovies()
