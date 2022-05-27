@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="movie_image">Movie image</string>
-    <string name="greetings">MOVIES</string>
+
+    <string name="greetings">MOVIES Elle</string>
     <string name="continue_with_fb">Continue with Facebook</string>
     <string name="continue_with_gmail">Continue with GMAIL</string>
     <string name="login_username_text_input_field">Username</string>
