@@ -3,22 +3,22 @@ package com.strv.movies.ui.moviedetail
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.annotation.NonNull
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -40,8 +40,13 @@ fun MovieDetail(movie: MovieDetail) {
         )
 
         Row {
-            MoviePoster(movie = movie)
-            MovieInfo(movie = movie)
+            MovieInfo(
+                movie = movie,
+                Modifier.weight(1f)
+            )
+            MoviePoster(
+                movie = movie
+            )
         }
     }
 }
@@ -82,29 +87,46 @@ fun MovieTrailerPlayer(videoId: String, progressSeconds: MutableState<Float>) {
 
 @Composable
 fun MoviePoster(movie: MovieDetail) {
-    AsyncImage(
-        model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
-        contentDescription = stringResource(id = R.string.movie_image),
-        modifier = Modifier
-            .padding(top = 16.dp)
-            .size(120.dp)
-    )
+    Column {
+
+        AsyncImage(
+            model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+            contentDescription = stringResource(id = R.string.movie_image),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .size(120.dp),
+        )
+        Text(
+            movie.title,
+            style = MaterialTheme.typography.subtitle2,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis, // It will add "..." to the end
+            textAlign = TextAlign.Center,
+            color = Color.Red
+        )
+    }
 }
 
 @Composable
-fun MovieInfo(movie: MovieDetail) {
-    Column {
+fun MovieInfo(movie: MovieDetail, weight: Modifier) {
+    Column(
+        modifier = Modifier
+            .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+            .width(240.dp),
+    ) {
+
         Text(
             movie.title,
-            modifier = Modifier.padding(top = 16.dp, end = 16.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-        Text(movie.releaseDate, modifier = Modifier.padding(top = 8.dp))
+        Text(movie.releaseDate)
         Text(
             movie.overview,
-            modifier = Modifier.padding(top = 8.dp, end = 16.dp),
-            textAlign = TextAlign.Justify
+            maxLines = 5,
+            overflow = TextOverflow.Ellipsis, // It will add "..." to the end
+            textAlign = TextAlign.Justify,
+            color = Color.Green
         )
     }
 }
