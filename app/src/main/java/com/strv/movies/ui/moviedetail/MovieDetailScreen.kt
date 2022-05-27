@@ -2,21 +2,22 @@ package com.strv.movies.ui.moviedetail
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.annotation.NonNull
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -26,8 +27,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.strv.movies.R
-import com.strv.movies.data.OfflineMoviesProvider
 import com.strv.movies.model.MovieDetail
+import com.strv.movies.model.Trailer
 import com.strv.movies.ui.error.ErrorScreen
 import com.strv.movies.ui.loading.LoadingScreen
 
@@ -40,12 +41,12 @@ fun MovieDetailScreen(
     if (viewState.loading) {
         LoadingScreen()
     } else if (viewState.error != null) {
-//      error !! = error is not null can be but next line won't be null
         ErrorScreen(errorMessage = viewState.error!!)
     } else {
         viewState.movie?.let {
             MovieDetail(
                 movie = it,
+                trailers = viewState.trailers,
                 videoProgress = viewState.videoProgress,
                 setVideoProgress = viewModel::updateVideoProgress
             )
@@ -56,26 +57,24 @@ fun MovieDetailScreen(
 @Composable
 fun MovieDetail(
     movie: MovieDetail,
+    trailers: Trailer?,
     videoProgress: Float = 0f,
     setVideoProgress: (second: Float) -> Unit
 ) {
     Column {
         Log.d("TAG", "MovieDetail: $videoProgress")
 
-        MovieTrailerPlayer(
-            videoId = OfflineMoviesProvider.getTrailer(movie.id).key,
-            progressSeconds = videoProgress,
-            setProgress = setVideoProgress
-        )
+        if(trailers?.key != null) {
+            MovieTrailerPlayer(
+                videoId = trailers.key,
+                progressSeconds = videoProgress,
+                setProgress = setVideoProgress
+            )
+        }
 
         Row {
-            MovieInfo(
-                movie = movie,
-                Modifier.weight(1f)
-            )
-            MoviePoster(
-                movie = movie
-            )
+            MoviePoster(movie = movie)
+            MovieInfo(movie = movie)
         }
     }
 }
@@ -89,12 +88,13 @@ fun MovieTrailerPlayer(
     // This is the official way to access current context from Composable functions
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+
     val configuration = LocalConfiguration.current
 
     val youTubePlayer = remember(context) {
         YouTubePlayerView(context).apply {
             addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
                     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         youTubePlayer.loadVideo(videoId, progressSeconds)
                     } else {
@@ -102,10 +102,7 @@ fun MovieTrailerPlayer(
                     }
                 }
 
-                override fun onCurrentSecond(
-                    youTubePlayer: YouTubePlayer,
-                    second: Float
-                ) {
+                override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
                     setProgress(second)
                 }
             })
@@ -122,46 +119,32 @@ fun MovieTrailerPlayer(
 
 @Composable
 fun MoviePoster(movie: MovieDetail) {
-    Column {
-
-        AsyncImage(
-            model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
-            contentDescription = stringResource(id = R.string.movie_image),
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .size(120.dp),
-        )
-        Text(
-            movie.title,
-            style = MaterialTheme.typography.subtitle2,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis, // It will add "..." to the end
-            textAlign = TextAlign.Center,
-            color = Color.Red
-        )
-    }
+    AsyncImage(
+        model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+        contentDescription = stringResource(id = R.string.movie_image),
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .size(120.dp)
+    )
 }
 
 @Composable
-fun MovieInfo(movie: MovieDetail, weight: Modifier) {
-    Column(
-        modifier = Modifier
-            .padding(start = 8.dp, top = 16.dp, end = 8.dp)
-            .width(240.dp),
-    ) {
-
+fun MovieInfo(movie: MovieDetail) {
+    Column {
         Text(
             movie.title,
+            modifier = Modifier.padding(top = 16.dp, end = 16.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-        Text(movie.releaseDate)
-        Text(
-            movie.overview,
-            maxLines = 5,
-            overflow = TextOverflow.Ellipsis, // It will add "..." to the end
-            textAlign = TextAlign.Justify,
-            color = Color.Green
-        )
+        Text(movie.releaseYear, modifier = Modifier.padding(top = 8.dp))
+        movie.overview?.let {
+            overview ->
+            Text(
+                overview,
+                modifier = Modifier.padding(top = 8.dp, end = 16.dp),
+                textAlign = TextAlign.Justify
+            )
+        }
     }
 }
