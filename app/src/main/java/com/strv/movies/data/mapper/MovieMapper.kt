@@ -9,7 +9,6 @@ class MovieMapper @Inject constructor() : Mapper<MovieDTO, Movie> {
     override fun map(from: MovieDTO) =
         Movie(
             id = from.id,
-            title = from.title,
             posterPath = from.posterPath,
         )
 }
