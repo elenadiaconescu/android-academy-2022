@@ -2,6 +2,16 @@ package com.strv.movies.model
 
 import com.squareup.moshi.Json
 
+// Used for UI
+data class MovieDetail(
+    val id: Int,
+    val title: String,
+    val overview: String?,
+    val releaseYear: String,
+    val posterPath: String,
+    val runtime: Int // Not used for now - try to include it in UI if you want :)
+)
+
 // Used for getting data from network
 data class MovieDetailDTO(
     @Json(name = "id")
@@ -18,14 +28,4 @@ data class MovieDetailDTO(
     val revenue: Int,
     @Json(name = "runtime")
     val runtime: Int
-)
-
-// Used for UI
-data class MovieDetail(
-    val id: Int,
-    val title: String,
-    val overview: String?,
-    val releaseYear: String,
-    val posterPath: String,
-    val runtime: Int // Not used for now - try to include it in UI if you want :)
 )

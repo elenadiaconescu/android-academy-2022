@@ -1,6 +1,7 @@
 package com.strv.movies.model
 
 import com.squareup.moshi.Json
+import kotlin.collections.List
 
 data class Movie(
     val id: Int,

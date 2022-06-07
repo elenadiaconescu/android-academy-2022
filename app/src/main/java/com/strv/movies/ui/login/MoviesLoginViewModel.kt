@@ -1,36 +1,51 @@
 package com.strv.movies.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.strv.movies.data.OfflineMoviesProvider
+import com.strv.movies.extension.fold
+import com.strv.movies.network.MovieRepository
+import com.strv.movies.ui.movieslist.MoviesListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
-class MoviesLoginViewModel @Inject constructor() : ViewModel() {
+class MoviesLoginViewModel @Inject constructor(
+    private val movieRepository: MovieRepository
+    ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(MoviesLoginViewState(loading = true))
     val viewState = _viewState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            delay(2000)
-            _viewState.update {
-                val randomNumber = Random.nextInt(10)
-                if (randomNumber == 2) {
-                    MoviesLoginViewState(error = "Something went wrong on Login")
-                } else {
+            fetchPopularMovies()
+        }
+    }
+
+    private suspend fun fetchPopularMovies() {
+        Log.e("TAG", "MovieList - Start fetching data.")
+        movieRepository.getPopularMovies().fold(
+            { error ->
+                Log.d("TAG", "MovieListLoadingError: $error")
+                _viewState.update {
                     MoviesLoginViewState(
-                        movies = OfflineMoviesProvider.getMovies()
+                        error = error
+                    )
+                }
+            },
+            { movieList ->
+                Log.e("TAG", "MovieListSuccess: ${movieList.size}")
+                _viewState.update {
+                    MoviesLoginViewState(
+                        movies = movieList
                     )
                 }
             }
-        }
+        )
     }
 }
