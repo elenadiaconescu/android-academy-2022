@@ -8,4 +8,6 @@
     <string name="continue_with_gmail">Sign In with Gmail</string>
     <string name="popcorn_picture">Popcorn</string>
     <string name="movie_clapper_picture">Movie Clapper</string>
+    <string name="hidePassword">Hide Password</string>
+    <string name="showPassword">Show Password</string>
 </resources>

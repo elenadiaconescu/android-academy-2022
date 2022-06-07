@@ -92,7 +92,7 @@ private fun PasswordField() {
                 Icons.Filled.Visibility
             else Icons.Filled.VisibilityOff
 
-            val description = if (passwordVisible) "Hide password" else "Show password"
+            val description = stringResource(id = if (passwordVisible) R.string.hidePassword else R.string.showPassword)
 
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 Icon(imageVector = image, description)
@@ -153,7 +153,7 @@ private fun SignInGmailButton(navigateToMovieList: () -> Unit) {
             .fillMaxWidth()
     ) {
         Button(
-            onClick = { navigateToMovieList() },
+            onClick = navigateToMovieList,
 //            onClick = { "https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&flowEntry=ServiceLogin" },
             modifier = Modifier
                 .fillMaxWidth()
