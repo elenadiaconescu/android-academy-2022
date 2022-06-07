@@ -35,15 +35,10 @@ fun MoviesListScreen(
 ) {
     val viewState by viewModel.viewState.collectAsState()
 
-    if (viewState.loading) {
-        LoadingScreen()
-    } else if (viewState.error != null) {
-        ErrorScreen(errorMessage = viewState.error!!)
-    } else {
-        MoviesList(
-            movies = viewState.movies,
-            onMovieClick = navigateToMovieDetail
-        )
+    when {
+        viewState.loading -> LoadingScreen()
+        viewState.error != null -> ErrorScreen(errorMessage = viewState.error!!)
+        else -> MoviesList(movies = viewState.movies, onMovieClick = navigateToMovieDetail)
     }
 }
 
