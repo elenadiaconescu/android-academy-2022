@@ -21,11 +21,10 @@ import com.strv.movies.database.MoviesDatabase.Companion.DATABASE_VERSION
 abstract class MoviesDatabase : RoomDatabase() {
 
     companion object {
-        const val DATABASE_VERSION = 4
+        const val DATABASE_VERSION = 3
         const val DATABASE_NAME = "movies_database_elle"
     }
 
     abstract fun getMoviesDao(): MoviesDao
-//    abstract fun withTransaction(function: () -> Unit)
 
 }

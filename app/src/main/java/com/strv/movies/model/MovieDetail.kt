@@ -17,7 +17,11 @@ data class MovieDetailDTO(
     @Json(name = "poster_path")
     val posterPath: String,
     @Json(name = "genres")
-    val genres: List<GenreDTO>
+    val genres: List<GenreDTO>,
+//    @Json(name = "revenue")
+//    val revenue: Int,
+//    @Json(name = "runtime")
+//    val runtime: Int
 )
 
 // Used for UI
@@ -28,6 +32,7 @@ data class MovieDetail(
     val releaseDate: String,
     val posterPath: String,
     val genres: List<Genre>
+//    val runtime: Int, // Not used for now - try to include it in UI if you want :)
 )
 
 fun MovieDetailDTO.toEntity() = MovieDetailEntity(
@@ -35,5 +40,7 @@ fun MovieDetailDTO.toEntity() = MovieDetailEntity(
     title = title,
     overview = overview,
     releaseDate = releaseDate,
-    posterPath = posterPath
+    posterPath = posterPath,
+//    runtime = runtime,
+//    revenue = revenue
 )

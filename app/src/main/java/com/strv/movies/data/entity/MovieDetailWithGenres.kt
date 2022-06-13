@@ -17,3 +17,13 @@ data class MovieDetailWithGenres(
     )
     val genres: List<GenreEntity>
 )
+
+fun MovieDetailWithGenres.toDomain() = MovieDetail(
+    id = movie.id,
+    title = movie.title,
+    overview = movie.overview,
+    posterPath = movie.posterPath,
+    releaseYear = movie.releaseDate,
+    runtime = movie.runtime,
+    genres = genres.map { it.toDomain() }
+)

@@ -37,7 +37,7 @@ fun MoviesListScreen(
     navigateToMovieDetail: (movieId: Int) -> Unit,
     viewModel: MoviesListViewModel = viewModel()
 ) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState(MoviesListViewState(movies = emptyList()))
 
     if (viewState.loading) {
         LoadingScreen()

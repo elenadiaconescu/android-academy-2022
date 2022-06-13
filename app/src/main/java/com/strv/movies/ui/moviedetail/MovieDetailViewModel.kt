@@ -65,16 +65,17 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 
-    fun updateVideoProgress(progress: Float) {
-        _viewState.update { it.copy(videoProgress = progress) }
-    }
-
     private fun observeMovieDetail() {
         viewModelScope.launch {
             movieRepository.observeMovieDetail(movieId).collect {
                 _movieDetail.value = it
+//   movieRepository.observeMovieDetail(movieId).collect { detail ->
+//   _movieDetail.value = detail
             }
         }
     }
 
+    fun updateVideoProgress(progress: Float) {
+        _viewState.update { it.copy(videoProgress = progress) }
+    }
 }

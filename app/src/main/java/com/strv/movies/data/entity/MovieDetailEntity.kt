@@ -14,7 +14,9 @@ data class MovieDetailEntity(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "overview") val overview: String?,
     @ColumnInfo(name = "release_date") val releaseDate: String,
-    @ColumnInfo(name = "poster_path") val posterPath: String
+    @ColumnInfo(name = "poster_path") val posterPath: String,
+//    @ColumnInfo(name = "runtime") val runtime: Int,
+//    @ColumnInfo(name = "revenue") val revenue: Int
 )
 
 fun MovieDetailWithGenres.toDomain() = MovieDetail(

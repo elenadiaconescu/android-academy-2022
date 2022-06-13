@@ -156,10 +156,10 @@ fun MovieInfo(movie: MovieDetail) {
 @Composable
 fun GeneresList(genres: List<Genre>) {
     LazyRow {
-        itemsIndexed(genres) { _, item ->
+        itemsIndexed(items = genres) { _, item ->
             Text(
                 text = item.name,
-                Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp)
             )
         }
     }

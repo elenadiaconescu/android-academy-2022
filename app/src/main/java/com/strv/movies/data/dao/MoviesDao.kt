@@ -9,17 +9,20 @@ import com.strv.movies.data.entity.MovieDetailEntity
 import com.strv.movies.data.entity.MovieDetailWithGenres
 import com.strv.movies.data.entity.MovieGenreEntity
 import com.strv.movies.model.Genre
+import com.strv.movies.data.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesDao {
 
+    //  Movies Details
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieDetail(entity: MovieDetailEntity)
 
     @Query("SELECT * FROM movie_detail WHERE movie_id = :id")
     fun observeMovieDetail(id: Int): Flow<MovieDetailWithGenres?>
 
+    //  Genres Movies Details
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGenres(entities: List<GenreEntity>)
 
@@ -27,11 +30,10 @@ interface MoviesDao {
     suspend fun insertMovieGenres(entities: List<MovieGenreEntity>)
 
     //  Popular Movies Details
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertPopularMovies(movies: List<MovieEntity>)
-//
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPopularMovies(movies: List<MovieEntity>)
+
 //    @Query("SELECT * FROM movie ORDER BY rating DESC")
 //    fun observePopularMovies(): Flow<List<MovieEntity>>
-//
 
 }
