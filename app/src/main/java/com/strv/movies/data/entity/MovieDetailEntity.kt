@@ -3,9 +3,6 @@ package com.strv.movies.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.strv.movies.model.Genre
-import com.strv.movies.model.GenreDTO
-import com.strv.movies.model.MovieDetail
 
 @Entity(tableName = "movie_detail")
 data class MovieDetailEntity(
@@ -19,11 +16,3 @@ data class MovieDetailEntity(
 //    @ColumnInfo(name = "revenue") val revenue: Int
 )
 
-fun MovieDetailWithGenres.toDomain() = MovieDetail(
-    id = movie.id,
-    title = movie.title,
-    overview = movie.overview,
-    posterPath = movie.posterPath,
-    releaseDate = movie.releaseDate,
-    genres = genres.map { it.toDomain() }
-)

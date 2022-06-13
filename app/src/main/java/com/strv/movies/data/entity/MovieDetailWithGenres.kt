@@ -3,7 +3,6 @@ package com.strv.movies.data.entity
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.strv.movies.model.Genre
 import com.strv.movies.model.MovieDetail
 
 data class MovieDetailWithGenres(
@@ -23,7 +22,7 @@ fun MovieDetailWithGenres.toDomain() = MovieDetail(
     title = movie.title,
     overview = movie.overview,
     posterPath = movie.posterPath,
-    releaseYear = movie.releaseDate,
-    runtime = movie.runtime,
+    releaseDate = movie.releaseDate,
     genres = genres.map { it.toDomain() }
+//   runtime = movie.runtime,
 )

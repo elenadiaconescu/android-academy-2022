@@ -8,7 +8,6 @@ import com.strv.movies.data.entity.GenreEntity
 import com.strv.movies.data.entity.MovieDetailEntity
 import com.strv.movies.data.entity.MovieDetailWithGenres
 import com.strv.movies.data.entity.MovieGenreEntity
-import com.strv.movies.model.Genre
 import com.strv.movies.data.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -29,9 +28,12 @@ interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieGenres(entities: List<MovieGenreEntity>)
 
-    //  Popular Movies Details
+//      Popular Movies Details
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopularMovies(movies: List<MovieEntity>)
+
+    @Query("SELECT * FROM movie")
+    fun observePopularMovies(): Flow<List<MovieEntity>>
 
 //    @Query("SELECT * FROM movie ORDER BY rating DESC")
 //    fun observePopularMovies(): Flow<List<MovieEntity>>

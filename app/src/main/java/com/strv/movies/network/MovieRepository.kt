@@ -1,9 +1,6 @@
 package com.strv.movies.network
 
 import com.strv.movies.data.dao.MoviesDao
-import com.strv.movies.data.entity.toDomain
-import com.strv.movies.data.mapper.MovieMapper
-import androidx.room.withTransaction
 import com.strv.movies.data.entity.MovieEntity
 import com.strv.movies.data.entity.toDomain
 import com.strv.movies.database.MoviesDatabase
@@ -12,12 +9,9 @@ import com.strv.movies.model.Movie
 import com.strv.movies.model.MovieDTO
 import com.strv.movies.model.MovieDetail
 import com.strv.movies.model.MovieDetailDTO
-import com.strv.movies.model.Trailer
 import com.strv.movies.model.toEntity
 import kotlinx.coroutines.flow.map
-import com.strv.movies.model.toEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,9 +19,9 @@ import javax.inject.Singleton
 class MovieRepository @Inject constructor(
     private val api: MovieApi,
     private val moviesDao: MoviesDao,
-    private val movieMapper: MovieMapper,
     private val moviesDatabase: MoviesDatabase
 ) {
+
     suspend fun fetchMovieDetail(movieId: Int): Either<String, String> {
         return try {
             val movie = api.getMovieDetail(movieId)
@@ -37,16 +31,6 @@ class MovieRepository @Inject constructor(
             Either.Error(exception.localizedMessage ?: "Network error")
         }
     }
-
-//    suspend fun getTrailers(movieId: Int): Either<String, List<Trailer>> {
-//        return try {
-//            val videos = api.getVideos(movieId)
-//            Either.Value(videos.results?.map { trailerMapper.map(it) }
-//                ?: emptyList()) // solving nullability from API nicely
-//        } catch (exception: Throwable) {
-//            Either.Error(exception.localizedMessage ?: "Network error")
-//        }
-//    }
 
     suspend fun fetchPopularMovies(): Either<String, Int> {
         return try {
@@ -69,11 +53,6 @@ class MovieRepository @Inject constructor(
         moviesDao.observeMovieDetail(movieId).map {
             it?.toDomain()
         }
-
-//       fun observeMovieDetail(movieId: Int): Flow<MovieDetail?> =
-//        moviesDao.observeMovieDetail(movieId).map {
-//            it?.toDomain()
-//        }
 
     private suspend fun storeMovieDetail(movie: MovieDetailDTO) {
         moviesDao.insertMovieDetail(movie.toEntity())

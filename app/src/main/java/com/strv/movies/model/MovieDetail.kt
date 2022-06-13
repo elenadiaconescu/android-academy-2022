@@ -1,7 +1,6 @@
 package com.strv.movies.model
 
 import com.squareup.moshi.Json
-import com.strv.movies.data.entity.GenreEntity
 import com.strv.movies.data.entity.MovieDetailEntity
 
 // Used for getting data from network

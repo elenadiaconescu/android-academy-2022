@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.strv.movies.model.Genre
-import com.strv.movies.model.GenreDTO
 
 @Entity(tableName = "genre_entity")
 data class GenreEntity(
@@ -18,7 +17,7 @@ fun GenreEntity.toDomain() = Genre(
     name = name
 )
 
-fun GenreDTO.toEntity() = GenreEntity(
-    genreId = id,
-    name = name
-)
+//fun GenreDTO.toEntity() = GenreEntity(
+//    genreId = id,
+//    name = name
+//)
