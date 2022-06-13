@@ -8,8 +8,3 @@ data class MovieGenreEntity(
     @ColumnInfo(name = "movie_id") val movieId: Int,
     @ColumnInfo(name = "genre_id") val genreId: Int
 )
-//
-//fun GenreDTO.toEntity(movieId: Int) = MovieGenreEntity(
-//    genreId = id,
-//    movieId = movieId
-//)

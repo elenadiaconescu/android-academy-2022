@@ -16,8 +16,3 @@ fun GenreEntity.toDomain() = Genre(
     id = genreId,
     name = name
 )
-
-//fun GenreDTO.toEntity() = GenreEntity(
-//    genreId = id,
-//    name = name
-//)

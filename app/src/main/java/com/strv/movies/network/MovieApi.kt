@@ -2,7 +2,7 @@ package com.strv.movies.network
 
 import com.strv.movies.model.MovieDetailDTO
 import com.strv.movies.model.PopularMoviesDTO
-import com.strv.movies.model.TrailersDTO
+import com.strv.movies.model.Trailer
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,7 +15,7 @@ interface MovieApi {
     suspend fun getPopularMovies(@Query("page") page: Int = 1): PopularMoviesDTO
 
     @GET("movie/{movieId}/videos")
-    suspend fun getVideos(@Path("movieId") movieId: Int): TrailersDTO
+    suspend fun getVideos(@Path("movieId") movieId: Int): Trailer
 
 //    @GET("movie/{movie_id}/lists")
 //    suspend fun getMovieList(@Path("movieId") movieId: Int) : ListsDTO

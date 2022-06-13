@@ -22,7 +22,7 @@ fun MovieDetailWithGenres.toDomain() = MovieDetail(
     title = movie.title,
     overview = movie.overview,
     posterPath = movie.posterPath,
-    releaseDate = movie.releaseDate,
+    releaseYear = movie.releaseDate,
+    runtime = movie.runtime,
     genres = genres.map { it.toDomain() }
-//   runtime = movie.runtime,
 )
