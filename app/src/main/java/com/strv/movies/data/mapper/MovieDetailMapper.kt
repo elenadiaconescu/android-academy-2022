@@ -13,6 +13,6 @@ class MovieDetailMapper @Inject constructor() : Mapper<MovieDetailDTO, MovieDeta
             overview = from.overview,
             releaseYear = from.releaseDate.substringBefore("-"), // ideal place to do some small tweaks to data to make it more UI ready
             posterPath = from.posterPath,
-            runtime = from.runtime // It would be nice to use string resource here and return formatted string value, sadly we do not have context here.
+//            runtime = from.runtime // It would be nice to use string resource here and return formatted string value, sadly we do not have context here.
         )
 }

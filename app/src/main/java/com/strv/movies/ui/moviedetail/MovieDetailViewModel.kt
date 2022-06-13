@@ -32,7 +32,7 @@ class MovieDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val movieDetail = async { movieRepository.getMovieDetail(movieId) }
+            val movieDetail = async { movieRepository.fetchMovieDetail(movieId) }
             val trailers = async { movieRepository.getTrailers(movieId) }
 
             val movieDetailResponse = movieDetail.await()

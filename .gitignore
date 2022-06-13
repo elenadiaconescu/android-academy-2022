@@ -12,3 +12,4 @@ local.properties
 *.hprof
 /gradle.properties
 /app/gradle.properties
+/app/android-academy-2022.keystore

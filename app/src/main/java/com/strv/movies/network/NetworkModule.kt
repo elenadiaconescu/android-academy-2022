@@ -3,6 +3,8 @@ package com.strv.movies.network
 import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.strv.movies.BuildConfig.API_KEY
+import com.strv.movies.BuildConfig.BUILD_TYPE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +37,6 @@ object NetworkModule {
     private const val BASE_URL: String = "https://api.themoviedb.org/3/"
 
 
-
     @Provides
     @Singleton
     fun provideRetrofitOkHttpClient(
@@ -62,7 +63,7 @@ object NetworkModule {
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor { message ->
         Log.d("HttpLoggingInterceptor", message)
     }.apply {
-        level = when (com.strv.movies.BuildConfig.BUILD_TYPE == "debug") {
+        level = when (BUILD_TYPE == "debug") {
             true -> HttpLoggingInterceptor.Level.BODY
             false -> HttpLoggingInterceptor.Level.BASIC
         }
@@ -87,7 +88,7 @@ object NetworkModule {
         val originalHttpUrl = original.url
 
         val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("api_key", com.strv.movies.BuildConfig.API_KEY ) // TODO ADD your key
+            .addQueryParameter("api_key", API_KEY) // TODO ADD your key
             .build()
 
         // Request customization: add request headers
