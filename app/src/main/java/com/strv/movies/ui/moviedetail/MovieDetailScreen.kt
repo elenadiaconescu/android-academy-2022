@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,6 +29,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.strv.movies.R
+import com.strv.movies.model.Genre
 import com.strv.movies.model.MovieDetail
 import com.strv.movies.model.Trailer
 import com.strv.movies.ui.error.ErrorScreen
@@ -36,7 +39,7 @@ import com.strv.movies.ui.loading.LoadingScreen
 fun MovieDetailScreen(
     viewModel: MovieDetailViewModel = viewModel()
 ) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState(MovieDetailViewState(loading = true))
 
     if (viewState.loading) {
         LoadingScreen()
@@ -64,7 +67,7 @@ fun MovieDetail(
     Column {
         Log.d("TAG", "MovieDetail: $videoProgress")
 
-        if(trailers?.key != null) {
+        if (trailers?.key != null) {
             MovieTrailerPlayer(
                 videoId = trailers.key,
                 progressSeconds = videoProgress,
@@ -76,6 +79,8 @@ fun MovieDetail(
             MoviePoster(movie = movie)
             MovieInfo(movie = movie)
         }
+
+        GeneresList(genres = movie.genres)
     }
 }
 
@@ -137,13 +142,24 @@ fun MovieInfo(movie: MovieDetail) {
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-        Text(movie.releaseYear, modifier = Modifier.padding(top = 8.dp))
-        movie.overview?.let {
-            overview ->
+        Text(movie.releaseDate, modifier = Modifier.padding(top = 8.dp))
+        movie.overview?.let { overview ->
             Text(
                 overview,
                 modifier = Modifier.padding(top = 8.dp, end = 16.dp),
                 textAlign = TextAlign.Justify
+            )
+        }
+    }
+}
+
+@Composable
+fun GeneresList(genres: List<Genre>) {
+    LazyRow {
+        itemsIndexed(genres) { _, item ->
+            Text(
+                text = item.name,
+                Modifier.padding(16.dp)
             )
         }
     }

@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "a338c829af8455536d419368e578c872",
+    "version": 4,
+    "identityHash": "e09a5db082c008175284557ab10d6a54",
     "entities": [
       {
         "tableName": "movie_detail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `title` TEXT NOT NULL, `overview` TEXT, `release_year` TEXT NOT NULL, `poster_path` TEXT NOT NULL, PRIMARY KEY(`movie_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `title` TEXT NOT NULL, `overview` TEXT, `release_date` TEXT NOT NULL, `poster_path` TEXT NOT NULL, PRIMARY KEY(`movie_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -27,8 +27,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "releaseYear",
-            "columnName": "release_year",
+            "fieldPath": "releaseDate",
+            "columnName": "release_date",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -53,7 +53,7 @@
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`genre_id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`genre_id`))",
         "fields": [
           {
-            "fieldPath": "id",
+            "fieldPath": "genreId",
             "columnName": "genre_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -76,17 +76,17 @@
       },
       {
         "tableName": "movie_genre",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`genre_id` INTEGER NOT NULL, `movie_id` INTEGER NOT NULL, PRIMARY KEY(`genre_id`, `movie_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `genre_id` INTEGER NOT NULL, PRIMARY KEY(`genre_id`, `movie_id`))",
         "fields": [
           {
-            "fieldPath": "genreId",
-            "columnName": "genre_id",
+            "fieldPath": "movieId",
+            "columnName": "movie_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "movieId",
-            "columnName": "movie_id",
+            "fieldPath": "genreId",
+            "columnName": "genre_id",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -131,7 +131,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a338c829af8455536d419368e578c872')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e09a5db082c008175284557ab10d6a54')"
     ]
   }
 }
