@@ -11,4 +11,7 @@
     <string name="welcome_text">WELCOME TO</string>
     <string name="popcorn_picture">Popcorn</string>
     <string name="movie_clapper_picture">Movie Clapper</string>
+    <string name="movie_list_title">Movies</string>
+    <string name="movie_detail_title">Detail</string>
+    <string name="profile_title">My Profile</string>
 </resources>

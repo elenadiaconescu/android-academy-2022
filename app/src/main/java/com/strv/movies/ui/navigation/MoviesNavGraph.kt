@@ -1,6 +1,7 @@
 package com.strv.movies.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,14 +10,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.strv.movies.ui.login.MoviesLoginScreen
+import com.strv.movies.ui.auth.LoginScreen
 import com.strv.movies.ui.moviedetail.MovieDetailScreen
 import com.strv.movies.ui.movieslist.MoviesListScreen
+import com.strv.movies.ui.profile.ProfileScreen
 
 @Composable
 fun MoviesNavGraph(
-    navController: NavHostController = rememberNavController()
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = MoviesDestinations.MOVIE_LOGIN_ROUTE
     ) {
@@ -48,6 +53,31 @@ fun MoviesNavGraph(
         ) {
             MovieDetailScreen(
                 viewModel = hiltViewModel()
+            )
+        }
+        composable(
+            route = MoviesDestinations.PROFILE_ROUTE
+        ) {
+            ProfileScreen(
+                viewModel = hiltViewModel(),
+                onLogout = {
+                    navController.popBackStack(MoviesDestinations.MOVIES_LIST_ROUTE, false)
+                }
+            )
+        }
+
+        composable(
+            route = MoviesDestinations.LOGIN_ROUTE
+        ) {
+            LoginScreen(
+                viewModel = hiltViewModel(),
+                onSuccessfulLogin = {
+                    navController.navigate(MoviesDestinations.PROFILE_ROUTE) {
+                        popUpTo(route = MoviesDestinations.LOGIN_ROUTE) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
     }
