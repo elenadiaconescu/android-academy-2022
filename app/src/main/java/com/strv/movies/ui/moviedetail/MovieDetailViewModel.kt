@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.strv.movies.extension.fold
-import com.strv.movies.model.MovieDetail
+import com.strv.movies.model.MovieDetailDTO
 import com.strv.movies.network.MovieRepository
 import com.strv.movies.ui.navigation.MoviesNavArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +26,7 @@ class MovieDetailViewModel @Inject constructor(
             "Movie id is missing..."
         }
 
-    private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
+    private val _movieDetail = MutableStateFlow<MovieDetailDTO?>(null)
     private val _viewState = MutableStateFlow(MovieDetailViewState(loading = true))
     val viewState = combine(_viewState, _movieDetail) { state, detail ->
         when {
@@ -40,18 +40,48 @@ class MovieDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             movieRepository.fetchMovieDetail(movieId).fold(
-                { error ->
-                    Log.d("TAG", "MovieDetailLoadingError: $error")
+                {},
+                { movie ->
                     _viewState.update {
                         MovieDetailViewState(
-                            error = error
+                            movie = movie
+                        )
+                    }
+                }
+            )
+
+            movieRepository.fetchTrailers(movieId).fold(
+                { error ->
+                    Log.d("TAG", "MovieTrailerLoadingError: $error")
+                    _viewState.update {
+                        MovieDetailViewState(
+                            error = "Bada bing !!"
                         )
                     }
                 },
-                { movieTitle ->
-                    Log.d("TAG", "MovieDetailLoaded: $movieTitle")
+                { trailerId ->
+
+                    _viewState.update {
+                        MovieDetailViewState(
+                            trailerId = trailerId
+                        )
+                    }
                 }
             )
+
+            /*  movieRepository.fetchMovieDetail(movieId).fold(
+                  { error ->
+                      Log.d("TAG", "MovieDetailLoadingError: $error")
+                      _viewState.update {
+                          MovieDetailViewState(
+                              error = error
+                          )
+                      }
+                  },
+                  { movieTitle ->
+                      Log.d("TAG", "MovieDetailLoaded: $movieTitle")
+                  }
+              )*/
         }
     }
 
@@ -59,8 +89,8 @@ class MovieDetailViewModel @Inject constructor(
         viewModelScope.launch {
             movieRepository.observeMovieDetail(movieId).collect {
                 _movieDetail.value = it
-//   movieRepository.observeMovieDetail(movieId).collect { detail ->
-//   _movieDetail.value = detail
+                //   movieRepository.observeMovieDetail(movieId).collect { detail ->
+                //   _movieDetail.value = detail
             }
         }
     }
@@ -68,4 +98,5 @@ class MovieDetailViewModel @Inject constructor(
     fun updateVideoProgress(progress: Float) {
         _viewState.update { it.copy(videoProgress = progress) }
     }
+
 }

@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,13 +26,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.strv.movies.R
-import com.strv.movies.model.Genre
-import com.strv.movies.model.MovieDetail
-import com.strv.movies.model.Trailer
+import com.strv.movies.model.GenreDTO
+import com.strv.movies.model.MovieDetailDTO
 import com.strv.movies.ui.error.ErrorScreen
 import com.strv.movies.ui.loading.LoadingScreen
 
@@ -49,7 +50,7 @@ fun MovieDetailScreen(
         viewState.movie?.let {
             MovieDetail(
                 movie = it,
-                trailers = viewState.trailers,
+                trailer = viewState.trailerId,
                 videoProgress = viewState.videoProgress,
                 setVideoProgress = viewModel::updateVideoProgress
             )
@@ -59,23 +60,24 @@ fun MovieDetailScreen(
 
 @Composable
 fun MovieDetail(
-    movie: MovieDetail,
-    trailers: Trailer?,
+    movie: MovieDetailDTO,
+    trailer: String,
     videoProgress: Float = 0f,
     setVideoProgress: (second: Float) -> Unit
 ) {
     Column {
         Log.d("TAG", "MovieDetail: $videoProgress")
 
-        if (trailers?.key != null) {
-            MovieTrailerPlayer(
-                videoId = trailers.key,
-                progressSeconds = videoProgress,
-                setProgress = setVideoProgress
-            )
-        }
+
+        MovieTrailerPlayer(
+            videoId = trailer,
+            progressSeconds = videoProgress,
+            setProgress = setVideoProgress
+        )
+
 
         Row {
+
             MoviePoster(movie = movie)
             MovieInfo(movie = movie)
         }
@@ -103,12 +105,29 @@ fun MovieTrailerPlayer(
                     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         youTubePlayer.loadVideo(videoId, progressSeconds)
                     } else {
-                        youTubePlayer.cueVideo(videoId, progressSeconds)
+                        youTubePlayer.loadVideo(videoId, progressSeconds)
+                      //  youTubePlayer.cueVideo(videoId, progressSeconds)
                     }
                 }
 
                 override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
                     setProgress(second)
+                }
+
+                override fun onStateChange(
+                    youTubePlayer: YouTubePlayer,
+                    state: PlayerConstants.PlayerState
+                ) {
+                    Log.v("Youtube", "Youtube:$state")
+
+                }
+
+                override fun onError(
+                    youTubePlayer: YouTubePlayer,
+                    error: PlayerConstants.PlayerError
+                ) {
+                    Log.d("", "Youtube:Error from youtube ${error.name}");
+
                 }
             })
         }
@@ -116,14 +135,17 @@ fun MovieTrailerPlayer(
 
     lifecycle.addObserver(youTubePlayer)
 
-    // Gateway to traditional Android Views
     AndroidView(
-        factory = { youTubePlayer }
+        factory = { youTubePlayer },
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .fillMaxWidth()
+
     )
 }
 
 @Composable
-fun MoviePoster(movie: MovieDetail) {
+fun MoviePoster(movie: MovieDetailDTO) {
     AsyncImage(
         model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
         contentDescription = stringResource(id = R.string.movie_image),
@@ -134,7 +156,7 @@ fun MoviePoster(movie: MovieDetail) {
 }
 
 @Composable
-fun MovieInfo(movie: MovieDetail) {
+fun MovieInfo(movie: MovieDetailDTO) {
     Column {
         Text(
             movie.title,
@@ -142,7 +164,7 @@ fun MovieInfo(movie: MovieDetail) {
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-        Text(movie.releaseYear, modifier = Modifier.padding(top = 8.dp))
+        Text(movie.releaseDate, modifier = Modifier.padding(top = 8.dp))
         movie.overview?.let { overview ->
             Text(
                 overview,
@@ -154,7 +176,7 @@ fun MovieInfo(movie: MovieDetail) {
 }
 
 @Composable
-fun GeneresList(genres: List<Genre>) {
+fun GeneresList(genres: List<GenreDTO>) {
     LazyRow {
         itemsIndexed(items = genres) { _, item ->
             Text(
