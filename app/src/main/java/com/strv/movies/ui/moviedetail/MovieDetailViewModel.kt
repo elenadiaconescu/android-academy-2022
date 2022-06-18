@@ -89,8 +89,6 @@ class MovieDetailViewModel @Inject constructor(
         viewModelScope.launch {
             movieRepository.observeMovieDetail(movieId).collect {
                 _movieDetail.value = it
-                //   movieRepository.observeMovieDetail(movieId).collect { detail ->
-                //   _movieDetail.value = detail
             }
         }
     }

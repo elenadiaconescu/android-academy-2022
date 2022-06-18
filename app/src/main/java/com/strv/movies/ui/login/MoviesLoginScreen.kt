@@ -17,7 +17,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.Visibility
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.strv.movies.R
 import com.strv.movies.ui.error.ErrorScreen
@@ -190,7 +189,3 @@ private fun PopcornMoviePictures() {
         )
     }
 }
-
-
-
-

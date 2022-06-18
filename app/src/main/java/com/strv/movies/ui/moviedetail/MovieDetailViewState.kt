@@ -1,8 +1,6 @@
 package com.strv.movies.ui.moviedetail
 
-import com.strv.movies.model.MovieDetail
 import com.strv.movies.model.MovieDetailDTO
-import com.strv.movies.model.Trailer
 
 data class MovieDetailViewState(
     val movie: MovieDetailDTO? = null,

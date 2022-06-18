@@ -24,6 +24,6 @@ fun MovieDetailWithGenres.toDomain() = MovieDetailDTO(
     posterPath = movie.posterPath,
     releaseDate = movie.releaseDate,
     runtime = movie.runtime,
-    revenue= movie.revenue,
+    revenue = movie.revenue,
     genres = genres.map { it.toDomain() }
 )

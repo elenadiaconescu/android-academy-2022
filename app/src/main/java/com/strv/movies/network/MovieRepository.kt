@@ -6,7 +6,6 @@ import com.strv.movies.data.entity.toDomain
 import com.strv.movies.extension.Either
 import com.strv.movies.model.Movie
 import com.strv.movies.model.MovieDTO
-import com.strv.movies.model.MovieDetail
 import com.strv.movies.model.MovieDetailDTO
 import com.strv.movies.model.TrailersDTO
 import com.strv.movies.model.toEntity
@@ -19,7 +18,6 @@ import javax.inject.Singleton
 class MovieRepository @Inject constructor(
     private val api: MovieApi,
     private val moviesDao: MoviesDao,
-//    private val trailerMapper: TrailerMapper,
 ) {
 
     suspend fun fetchMovieDetail(movieId: Int): Either<String, MovieDetailDTO> {

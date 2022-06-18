@@ -1,7 +1,6 @@
 package com.strv.movies.model
 
 import com.squareup.moshi.Json
-import com.strv.movies.data.entity.MovieDetailEntity
 import com.strv.movies.data.entity.TrailerEntity
 
 data class TrailersDTO(
@@ -34,7 +33,7 @@ data class TrailerOnlyDTO(
 )
 
 data class Trailer(
-    val id:Int
+    val id: Int
 )
 
 fun TrailersDTO.toEntity() = TrailerEntity(
