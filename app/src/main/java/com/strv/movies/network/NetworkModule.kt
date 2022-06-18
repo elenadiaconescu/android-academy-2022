@@ -5,7 +5,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.strv.movies.BuildConfig.API_KEY
 import com.strv.movies.BuildConfig.BUILD_TYPE
-import com.strv.movies.BuildConfig
 import com.strv.movies.network.auth.AuthInterceptor
 import dagger.Module
 import dagger.Provides
